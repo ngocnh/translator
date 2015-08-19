@@ -226,7 +226,7 @@ trait Translatable
     {
         $translation = $this->translatorInstance
             ->where('locale_id', $localeId)
-            ->where($this->getForeignKey(), $this->id)
+            ->where($this->translatableForeign ?: $this->getForeignKey(), $this->id)
             ->first();
 
         if ($translation) {
@@ -374,6 +374,6 @@ trait Translatable
      */
     public function translations()
     {
-        return $this->hasMany($this->translator);
+        return $this->hasMany($this->translator, $this->translatableForeign ?: $this->getForeignKey());
     }
 }
